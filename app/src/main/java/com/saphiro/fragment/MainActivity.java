@@ -9,6 +9,16 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
     @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+        if(count > 1)
+            getFragmentManager().popBackStack();
+        else
+            super.onBackPressed();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -26,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.container, fragment);
+
+        if (addedToBackStack)
+            transaction.addToBackStack(fragment.getTag());
+
         transaction.commit();
 
     }
